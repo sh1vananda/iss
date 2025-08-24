@@ -8,8 +8,12 @@ export function useAstros() {
 
   const fetchAstros = async () => {
     try {
-      const res = await fetch("http://api.open-notify.org/astros.json");
-      const data = await res.json();
+        const url = "http://api.open-notify.org/astros.json";
+        const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(url) + "&disableCache=true";
+
+        const res = await fetch(proxyUrl);
+        const rawData = await res.json();
+        const data = JSON.parse(rawData.contents);
 
       if (data.message === "success") {
         setPeople(data.number);

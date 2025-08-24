@@ -9,8 +9,12 @@ export function useISS() {
 
   const fetchISS = async () => {
     try {
-      const res = await fetch("http://api.open-notify.org/iss-now.json");
-      const data = await res.json();
+      const url = "http://api.open-notify.org/iss-now.json";
+      const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(url) + "&disableCache=true";
+
+      const res = await fetch(proxyUrl);
+      const rawData = await res.json();
+      const data = JSON.parse(rawData.contents);
 
       if (data.message === "success") {
         const lat = parseFloat(data.iss_position.latitude);
